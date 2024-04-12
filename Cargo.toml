@@ -1,8 +1,12 @@
 [package]
 name = "highlight-ez"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 description = "Easy Syntax Highlighting with HTML output"
+repository = "https://github.com/Mordanis/highlight-ez"
+readme = "README.md"
+categories = ["graphics"]
+keywords = ["graphics", "html", "highlight"]
 
 
 [workspace.package]
