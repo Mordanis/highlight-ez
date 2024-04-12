@@ -1,0 +1,22 @@
+[package]
+name = "highlight-ez"
+version = "0.1.0"
+edition = "2021"
+description = "Easy Syntax Highlighting with HTML output"
+
+
+[workspace.package]
+rust-version = "1.74.1"
+
+[dependencies]
+anyhow = "1.0.81"
+tree-sitter = "0.22.2"
+tree-sitter-cli = "0.22.2"
+tree-sitter-highlight = "0.22.2"
+tree-sitter-loader = "0.22.2"
+tree-sitter-config = "0.22.2"
+git2 = "0.18.3"
+thiserror = "1.0.58"
+
+[build-dependencies]
+cc="1.0.90"
