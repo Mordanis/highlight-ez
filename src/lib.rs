@@ -74,9 +74,7 @@ pub fn render_html(code_block: &str, lang: TargetLanguage) -> Result<String> {
     // FROM tree-sitter-cli
     let mut loader = tree_sitter_loader::Loader::new().unwrap();
     let config = tree_sitter_config::Config::load(None).unwrap();
-    println!("config is {:?}", config);
     let theme_config: tree_sitter_cli::highlight::ThemeConfig = config.get().unwrap();
-    println!("theme config is {:?}", config);
     loader.configure_highlights(&theme_config.theme.highlight_names);
     let loader_config = config.get().unwrap();
     loader.find_all_languages(&loader_config).unwrap();
@@ -91,7 +89,6 @@ pub fn render_html(code_block: &str, lang: TargetLanguage) -> Result<String> {
     )? {
         Some(lang) => lang,
         None => {
-            eprintln!("Unable to load lang");
             return Ok("".into());
         }
     };
@@ -168,12 +165,7 @@ pub fn generate_parser(lang: TargetLanguage) -> Result<()> {
     loader.use_debug_build(false);
     loader.languages_at_path(&current_dir)?;
     // grammar path below is to git repo, not grammar.js/json
-    if let Err(e) =
-        loader.compile_parser_at_path(&repo_path, std::path::PathBuf::from(sopath), &[""])
-    {
-        println!("grammar path is {grammar_path_str}");
-        eprintln!("Unable to compile parser! error: {e}");
-    }
+    loader.compile_parser_at_path(&repo_path, std::path::PathBuf::from(sopath), &[""])?;
 
     Ok(())
 }
