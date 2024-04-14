@@ -15,7 +15,7 @@
 //! let html = render_html(my_pyblock, lang);
 //! ```
 mod error;
-pub mod target_language;
+mod target_language;
 
 use anyhow::Result;
 use std::fmt::Write;
@@ -24,7 +24,7 @@ use tree_sitter_highlight::HighlightConfiguration;
 use tree_sitter_highlight::{Highlighter, HtmlRenderer};
 use tree_sitter_loader::Loader;
 
-use target_language::TargetLanguage;
+pub use target_language::TargetLanguage;
 
 /// Take generated arguments and make the calls to tree-sitter
 fn string_html(

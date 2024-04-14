@@ -1,5 +1,6 @@
 use thiserror::Error;
 
+/// Error type for highlighting crate
 #[non_exhaustive]
 #[derive(Error, Debug, Clone)]
 pub enum HtmlRenderingError {
