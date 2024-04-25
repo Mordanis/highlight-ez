@@ -122,6 +122,7 @@ pub fn generate_parser(lang: TargetLanguage) -> Result<()> {
         Some(p) => p,
         None => return Err(error::HtmlRenderingError::SharedLibDoesntExist.into()),
     };
+    log::trace!("found home path {:?}", home_path);
 
     let git_url = match lang.git_repo() {
         Some(n) => n,
@@ -133,6 +134,7 @@ pub fn generate_parser(lang: TargetLanguage) -> Result<()> {
         None => return Err(error::HtmlRenderingError::SharedLibDoesntExist.into()),
     };
     let sopath = cache_path.join(soname);
+    log::trace!("found sopath path {:?}", sopath);
     let repo_name = std::path::Path::new(git_url)
         .file_name()
         .unwrap()
@@ -146,6 +148,7 @@ pub fn generate_parser(lang: TargetLanguage) -> Result<()> {
         .join(repo_name);
 
     if !repo_path.exists() {
+        log::debug!("Cloning Git repo {:?} to path {:?}", git_url, repo_path);
         git2::Repository::clone(git_url, repo_path.clone())?;
     }
 
@@ -160,12 +163,14 @@ pub fn generate_parser(lang: TargetLanguage) -> Result<()> {
         None,
         None,
     )?;
+    log::trace!("generated parser for {:?}", lang);
 
     let mut loader = tree_sitter_loader::Loader::new().unwrap();
     loader.use_debug_build(false);
     loader.languages_at_path(&current_dir)?;
     // grammar path below is to git repo, not grammar.js/json
     loader.compile_parser_at_path(&repo_path, std::path::PathBuf::from(sopath), &[""])?;
+    log::trace!("compiled parser for {:?}", lang);
 
     Ok(())
 }
@@ -176,18 +181,23 @@ fn check_for_parser(target_lang: TargetLanguage) -> Result<()> {
         Some(p) => p,
         None => return Err(error::HtmlRenderingError::SharedLibDoesntExist.into()),
     };
+    log::trace!("found home path {:?}", home_path);
 
     let cache_path = home_path.join(".cache").join("tree-sitter").join("lib");
     let soname = match target_lang.soname() {
         Some(s) => s,
         None => return Err(error::HtmlRenderingError::SharedLibDoesntExist.into()),
     };
+    log::trace!("found cache path {:?}", cache_path);
 
     let sopath = cache_path.join(soname);
+    log::trace!("Looking for sofile {:?}", sopath);
 
     if !sopath.exists() {
+        log::error!("Unable to find sofile for treesitter parser");
         Err(error::HtmlRenderingError::SharedLibDoesntExist.into())
     } else {
+        log::debug!("Found treesitter parser");
         Ok(())
     }
 }
