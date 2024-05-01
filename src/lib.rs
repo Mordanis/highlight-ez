@@ -142,7 +142,7 @@ pub fn generate_parser(lang: TargetLanguage) -> Result<()> {
     let repo_name = repo_name.split(".").next().unwrap();
 
     let repo_path = home_path
-        .join(".config")
+        .join(".cache")
         .join("tree-sitter")
         .join("parsers")
         .join(repo_name);
