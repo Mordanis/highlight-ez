@@ -153,6 +153,10 @@ pub fn generate_parser(lang: TargetLanguage) -> Result<()> {
     }
 
     let grammar_path = repo_path.join("grammar.js");
+    log::debug!("Grammar path is {grammar_path}");
+    if !grammar_path.exists() {
+        log::debug!("Grammar path doesn't exist, this will probably not work");
+    }
     let grammar_path = grammar_path.as_os_str();
     let grammar_path_str = grammar_path.to_str().unwrap();
     generate::generate_parser_in_directory(
