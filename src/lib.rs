@@ -5,7 +5,7 @@
 //! using tree-sitter.
 //!
 //! ```
-//! # use highlight_ez::{render_html, target_language::TargetLanguage};
+//! # use highlight_ez::{render_html, TargetLanguage};
 //! let my_pyblock = r#"def fib(a):
 //!     if a = 1:
 //!         return 1
@@ -160,7 +160,7 @@ pub fn generate_parser(lang: TargetLanguage) -> Result<()> {
     let grammar_path = grammar_path.as_os_str();
     let grammar_path_str = grammar_path.to_str().unwrap();
     generate::generate_parser_in_directory(
-        &current_dir,
+        &repo_path,
         Some(grammar_path_str),
         ABI_VERSION,
         true,
